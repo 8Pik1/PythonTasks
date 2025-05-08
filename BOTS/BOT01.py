@@ -71,13 +71,17 @@ async def start(message: types.Message):
 @dp.callback_query()
 async def process_menu(callback_query: types.CallbackQuery):
     data = callback_query.data
-
+    print("012")
     # Если выбран пункт из главного меню
     if data == "main":
         await bot.send_message(callback_query.from_user.id, menu_data["main"]["text"], reply_markup=get_keyboard("main"))
 
+    elif data == "powerlifting":
+        await bot.send_message(callback_query.from_user.id, menu_data["powerlifting"]["text"], reply_markup=get_keyboard("powerlifting"))
+
     # Если выбран пункт из "Пауэрлифтинга"
     elif data.startswith("pl_"):
+        print("123")
         await bot.send_message(callback_query.from_user.id, menu_data["powerlifting"]["text"], reply_markup=get_keyboard("powerlifting"))
 
     # Если выбран пункт из "Бодибилдинга"
@@ -95,6 +99,8 @@ async def process_menu(callback_query: types.CallbackQuery):
     elif data == "main":
         await bot.send_message(callback_query.from_user.id, menu_data["main"]["text"], reply_markup=get_keyboard("main"))
 
+    else:
+        await bot.send_message(callback_query.from_user.id, "неизвестная команда: " + data)
 # Регистрация хендлеров
 #dp.register_message_handler(start, commands="start")
 
