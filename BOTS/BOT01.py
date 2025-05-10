@@ -1,6 +1,6 @@
 import logging
 from aiogram import Bot, Dispatcher, types
-from aiogram.types import InputFile
+from aiogram.types import FSInputFile
 from aiogram.filters import Command
 import asyncio
 
@@ -75,24 +75,19 @@ async def process_menu(callback_query: types.CallbackQuery):
     # Если выбран пункт из главного меню
     if data == "main":
         await bot.send_message(callback_query.from_user.id, menu_data["main"]["text"], reply_markup=get_keyboard("main"))
-
+    # Если выбран пункт из "Пауэрлифтинга"
     elif data == "powerlifting":
         await bot.send_message(callback_query.from_user.id, menu_data["powerlifting"]["text"], reply_markup=get_keyboard("powerlifting"))
 
-    # Если выбран пункт из "Пауэрлифтинга"
-    elif data.startswith("pl_"):
-        print("123")
-        await bot.send_message(callback_query.from_user.id, menu_data["powerlifting"]["text"], reply_markup=get_keyboard("powerlifting"))
-
     # Если выбран пункт из "Бодибилдинга"
-    elif data.startswith("bb_"):
+    elif data.startswith("bodybuilding"):
         await bot.send_message(callback_query.from_user.id, menu_data["bodybuilding"]["text"], reply_markup=get_keyboard("bodybuilding"))
 
     # Если выбран опыт для Пауэрлифтинга или Бодибилдинга
     elif data in FILES:
         await bot.send_message(callback_query.from_user.id, "Вот ваш тренировочный план:")
         file_path = FILES[data]
-        file = InputFile(file_path)
+        file = FSInputFile(file_path)
         await bot.send_document(callback_query.from_user.id, file)
 
     # Обработка кнопки "Назад"
